@@ -1,0 +1,77 @@
+---
+title: "Lab1"
+author: "Carina Huang"
+date: "2026-01-14"
+output: html_document
+---
+
+```{r}
+#ENV710 Lab Week 1 Script
+#Carina Huang
+#1/14/2026
+```
+
+```{r}
+install.packages("palmerpenguins")
+library(palmerpenguins)
+library(tidyverse)
+```
+
+
+```{r creating variables}
+pizza <- 10 
+coffee <- 100
+happiness <- pizza*coffee
+
+```
+
+```{r load data and examine data}
+df <- penguins
+view(df)
+
+#how many different kinds of penguins species are there?
+unique(df$species)
+
+#the minimum and maximum bill lengths(in mm)?
+#na.rm = TRUE is to remove NAs
+min(df$bill_length_mm, na.rm = TRUE)
+max(df$bill_length_mm, na.rm = TRUE)
+
+#what is their bill length mean and median?
+mean(df$bill_length_mm, na.rm = TRUE)
+median(df$bill_length_mm, na.rm = TRUE)
+
+#what is the standard deviation in flipper length?
+flipper_sd <- sd(df$flipper_length_mm, na.rm = TRUE)
+```
+
+```{r}
+#creating a scatterplot
+fig1 <- ggplot(data=df, #specify data
+               aes(x = bill_length_mm,
+                   y = bill_depth_mm,
+                   color = species))+
+  geom_point()+
+  scale_color_manual(values = c("darkorange",
+                               "purple",
+                               "cyan4"))+
+  labs(x = "Bill Length (mm)",
+       y = "Bill Depth (mm)",
+       color = "Species",
+       title = "Penguin Data from Antartica LTER")+
+  theme_bw()
+
+#Print the plot
+fig1
+
+```
+
+```{r exporting the plot}
+ggsave(fig1,
+       filename = "penguin_plot.jpg",
+       height = 12,
+       width = 15,
+       units = "cm") #units could alao be in 'in' or 'px'
+
+```
+
