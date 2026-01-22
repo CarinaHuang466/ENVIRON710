@@ -1,0 +1,94 @@
+---
+title: "lab2_CH"
+author: "Carina Huang"
+date: "2026-01-21"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Fiddler crab coding exercise
+
+```{r loading packages, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(here)
+library(viridis)
+library(ggplot2)
+library(lterdatasampler)
+here
+
+```
+
+```{r read and store the data}
+crab_data <- pie_crab
+```
+
+```{r 1.measure of location and data spread}
+
+#a. mean fiddler crab carapace size
+size_mean <- mean(crab_data$size,na.rm = TRUE)
+print(size_mean)
+#b. median fiddler crab carapace size
+size_median <- median(crab_data$size,na.rm = TRUE)
+print(size_median)
+#c.standard deviation of fiddler crab carapace size
+size_sd <- sd(crab_data$size,na.rm = TRUE)
+print(size_sd)
+```
+
+```{r 2.a creating histograms, fig.cap="Fig.1 Histogram of fiddler crab carapace siz (across all sites)"}
+#Question 2
+crab_histogram <- ggplot(data = crab_data,
+                         aes(x = size))+
+  geom_histogram(bins = 15)
+print(crab_histogram)
+
+```
+
+```{r 2.b separate histograms,fig.cap="Fig.2 Histogram of fiddler crab carapace size (for different sites)"}
+
+crab_histogram2 <- ggplot(data = crab_data,
+                         aes(x = size,
+                             fill = name))+
+  geom_histogram(bins = 15)+
+  facet_wrap(~name)+
+  labs(x = "Size (mm)",
+       y = "Count",
+       title = "Fiddler Crab Carapace Size Histograms")+
+  theme(legend.position = "none")
+
+print(crab_histogram2)
+
+```
+
+2.c in the figure created in step 2.a, we can tell that the median(14.435) we calculated earlier falls into the same bin as the highest count of sizes, and the mean(14.658) also falls into the same bin. By looking at the separate histograms, we can see that for Narragansett Bay NERR, the largest bin is slightly larger than 15, and for Delaware Bay, Guana Tolomoto Matanzas, Sapelo Island, Zeke's Island and Jacques Cousteau, the highest bin is lower than 15. And the rest show very different distribution than figure 1.
+
+```{r question 3, fig.cap="Fig.3 Air Temperature for Different Crab Sites"}
+#Question 3
+crab_point <- ggplot(data = crab_data,
+                         aes(x = name,
+                             y = air_temp,
+                             color = name))+
+geom_point()+
+theme(axis.text.x = element_text(angle = 45, hjust = 1), legend.position = "none")+
+  labs(x = "Site Name",
+       y = "Air Temperature",
+       title = "Air Temperature for Different Crab Sites")+
+  theme(legend.position = "none")
+print(crab_point)
+
+```
+
+```{r question 3.2, fig.cap ="Fig 4.Air Temperatures for different locations"}
+#3.2 produce a confusing graph
+crab_point_confuse <- ggplot(data = crab_data,
+                         aes(x = name,
+                             y = air_temp))+
+  geom_point()
+print(crab_point_confuse)
+
+```
